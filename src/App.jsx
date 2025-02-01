@@ -6,6 +6,8 @@ import JurnalList from './components/JurnalList/JurnalList.jsx';
 import CardButton from './components/CardButton/CardButton.jsx';
 import JurnalItem from "./components/JournalItem/JurnalItem.jsx";
 import Body from './layouts/Body/Body.jsx';
+import { useState } from 'react';
+import JournalForm from './components/JournalForm/JournalForm.jsx';
 
 function App() {
 	const data = {
@@ -13,6 +15,8 @@ function App() {
 		text: 'горные походы открывают природные ланджафты',
 		date: new Date(),
 	}
+
+
 	return (
 		<div className='app'>
 			{/* композиция компонента - передаем в нутрь компонент другой компанент(children)*/}
@@ -30,7 +34,7 @@ function App() {
 				</JurnalList>
 			</LeftPanel>
 			<Body>
-				Body
+				<JournalForm/>
 			</Body>
 		</div>
 	)
