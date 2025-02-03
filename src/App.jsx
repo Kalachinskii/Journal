@@ -9,13 +9,46 @@ import Body from './layouts/Body/Body.jsx';
 import { useState } from 'react';
 import JournalForm from './components/JournalForm/JournalForm.jsx';
 
-function App() {
-	const data = {
+const INITIAL_DATA = [
+	{
+		id: 1,
 		title: 'Подготовка к обновлению курсов',  
 		text: 'горные походы открывают природные ланджафты',
 		date: new Date(),
-	}
+	},
+	{
+		id: 2,
+		title: 'обновление курсов',  
+		text: 'гфывфывфывфыв фыв фыв фы в фыв',
+		date: new Date(),
+	},
+	{
+		id: 3,
+		title: 'Поasdas',  
+		text: 'горные походы оывапывапе ланджафты',
+		date: new Date(),
+	},
+];
 
+function App() {
+	const [items, setItems] = useState(INITIAL_DATA);
+	
+	const addItem = (item) => {
+		setItems(oldItems => [...oldItems, {
+			text: item.text,
+			title: item.title,
+			date: new Date(item.date),
+			id: Math.max(...oldItems.map(i => i.id)) + 1
+		}]);	
+	};
+
+	const sortItems = (a, b) => {
+		if (a.date < b.date) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
 
 	return (
 		<div className='app'>
@@ -24,17 +57,19 @@ function App() {
 				<Header/>
 				<JournalAddButton />
 				<JurnalList>
-					<CardButton>
-						<JurnalItem 
-						date={data.date} 
-						text={data.text} 
-						title={data.title}
-						/>
-					</CardButton>
+					{items.sort(sortItems).map((el) => (
+						<CardButton key={el.id}>
+							<JurnalItem  
+								text={el.text} 
+								title={el.title}
+								date={el.date}
+							/>
+						</CardButton>
+					))}
 				</JurnalList>
 			</LeftPanel>
 			<Body>
-				<JournalForm/>
+				<JournalForm onSubmit={addItem}/>
 			</Body>
 		</div>
 	)
