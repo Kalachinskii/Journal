@@ -16,29 +16,29 @@ const INITIAL_DATA = [
 		text: 'горные походы открывают природные ланджафты',
 		date: new Date(),
 	},
-	{
-		id: 2,
-		title: 'обновление курсов',  
-		text: 'гфывфывфывфыв фыв фыв фы в фыв',
-		date: new Date(),
-	},
-	{
-		id: 3,
-		title: 'Поasdas',  
-		text: 'горные походы оывапывапе ланджафты',
-		date: new Date(),
-	},
+	// {
+	// 	id: 2,
+	// 	title: 'обновление курсов',  
+	// 	text: 'гфывфывфывфыв фыв фыв фы в фыв',
+	// 	date: new Date(),
+	// },
+	// {
+	// 	id: 3,
+	// 	title: 'Поasdas',  
+	// 	text: 'горные походы оывапывапе ланджафты',
+	// 	date: new Date(),
+	// },
 ];
 
 function App() {
 	const [items, setItems] = useState(INITIAL_DATA);
 	
-	const addItem = (item) => {
+	const addItem = item => {	
 		setItems(oldItems => [...oldItems, {
 			text: item.text,
 			title: item.title,
 			date: new Date(item.date),
-			id: Math.max(...oldItems.map(i => i.id)) + 1
+			id: oldItems.length > 0 ? Math.max(...oldItems.map(i => i.id)) + 1 : 1
 		}]);	
 	};
 
@@ -57,7 +57,8 @@ function App() {
 				<Header/>
 				<JournalAddButton />
 				<JurnalList>
-					{items.sort(sortItems).map((el) => (
+					{items.length === 0 && <p>Записей нет, добавте 1 запись</p>}
+					{items.length > 0 && items.sort(sortItems).map(el => (
 						<CardButton key={el.id}>
 							<JurnalItem  
 								text={el.text} 
