@@ -1,8 +1,10 @@
-import './Header.css';
+// Работа с модулями
+import styles from './Header.module.css';
 
 function Header() {
     return (
-        <img className='logo' src="/logo.png" alt="Логотип журнала" />
+        // class="_logo_tsrpx_1" - модуль обеспечил уникальность имени
+        <img className={styles.logo} src="/logo.png" alt="Логотип журнала" />
     )
 }
 
