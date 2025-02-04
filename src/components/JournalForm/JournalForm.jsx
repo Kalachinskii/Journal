@@ -55,8 +55,9 @@ function JournalForm({onSubmit}) {
                     <input type="text" name="title" className={styles['input-title'] + ' ' + `${formValidState.title ? '' : styles['invalid']}`}/>
                 </div>
                 {/* библиотека classnames */}
+                {/* for в jsx нету => htmlFor - аналог for */}
                 <div className={styles['form-row']}>
-                    <label for="date" className={styles['form-label']}>
+                    <label htmlFor="date" className={styles['form-label']}>
                         <img src="/calendar.svg" alt="Иконка календарь" />
                         <span>Дата</span>
                     </label>
@@ -68,7 +69,7 @@ function JournalForm({onSubmit}) {
                     }/>
                 </div>
                 <div className={styles['form-row']}>
-                    <label for="tag" className={styles['form-label']}>
+                    <label htmlFor="tag" className={styles['form-label']}>
                         <img src="/folder.svg" alt="Иконка папки" />
                         <span>Метки</span>
                     </label>

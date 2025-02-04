@@ -6,33 +6,72 @@ import JurnalList from './components/JurnalList/JurnalList.jsx';
 import CardButton from './components/CardButton/CardButton.jsx';
 import JurnalItem from "./components/JournalItem/JurnalItem.jsx";
 import Body from './layouts/Body/Body.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import JournalForm from './components/JournalForm/JournalForm.jsx';
 
-const INITIAL_DATA = [
-	{
-		id: 1,
-		title: 'Подготовка к обновлению курсов',  
-		text: 'горные походы открывают природные ланджафты',
-		date: new Date(),
-	},
-	// {
-	// 	id: 2,
-	// 	title: 'обновление курсов',  
-	// 	text: 'гфывфывфывфыв фыв фыв фы в фыв',
-	// 	date: new Date(),
-	// },
-	// {
-	// 	id: 3,
-	// 	title: 'Поasdas',  
-	// 	text: 'горные походы оывапывапе ланджафты',
-	// 	date: new Date(),
-	// },
-];
+// const INITIAL_DATA = [
+// 	{
+// 		id: 1,
+// 		title: 'Подготовка к обновлению курсов',  
+// 		text: 'горные походы открывают природные ланджафты',
+// 		date: new Date(),
+// 	},
+// 	{
+// 		id: 2,
+// 		title: 'обновление курсов',  
+// 		text: 'гфывфывфывфыв фыв фыв фы в фыв',
+// 		date: new Date(),
+// 	},
+// 	{
+// 		id: 3,
+// 		title: 'Поasdas',  
+// 		text: 'горные походы оывапывапе ланджафты',
+// 		date: new Date(),
+// 	},
+// ];
+
+// JSON
+// [{
+// 	"id": 1,
+// 	"title": "Подготовка к обновлению курсов",  
+// 	"text": "горные походы открывают природные ланджафты",
+// 	"date": "2024/03/03"
+// },
+// {
+// 	"id": 2,
+// 	"title": "обновление курсов",  
+// 	"text": "гфывфывфывфыв фыв фыв фы в фыв",
+// 	"date": "2024/03/03"
+// }]
+
 
 function App() {
-	const [items, setItems] = useState(INITIAL_DATA);
-	
+	const [items, setItems] = useState([]);
+
+	// выполни 1 раз
+	useEffect(() => {
+		const data = JSON.parse(localStorage.getItem("data"));
+		if (data) {
+			setItems(data.map(item => ({
+				...item,
+				date: new Date(item.date)
+			})));
+		}
+	}, []);
+
+	// useEffect(() => {
+	// 	console.log(items);
+	// }, [items])
+
+	// ЗАЦИКЛИВАНИЕ 
+	// const data = JSON.parse(localStorage.getItem('data'));
+	// if (data) {
+	// 	setItems(data.map(item => ({
+	// 		...item,
+	// 		date: new Date(item.date)
+	// 	})))
+	// }
+
 	const addItem = item => {	
 		setItems(oldItems => [...oldItems, {
 			text: item.text,
