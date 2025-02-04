@@ -59,9 +59,12 @@ function App() {
 		}
 	}, []);
 
-	// useEffect(() => {
-	// 	console.log(items);
-	// }, [items])
+	useEffect(() => {
+		if (items.length) {
+			console.log('запись');
+			localStorage.setItem('data', JSON.stringify(items))
+		}
+	}, [items])
 
 	// ЗАЦИКЛИВАНИЕ 
 	// const data = JSON.parse(localStorage.getItem('data'));
