@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Button  from '../Button/Button';
 // Работа с модулями
 import styles from './JournalForm.module.css';
+// библиотека classnames
+import cn from 'classnames';
 
 function JournalForm({onSubmit}) {
 	// const [inputDate, setInputDate] = useState('');
@@ -50,9 +52,15 @@ function JournalForm({onSubmit}) {
             <form className={styles['journal-form']} onSubmit={addJournalItem}>
                 {/* Динамический класс - приоритет*/}
                 <input type="text" name="title" className={styles['input'] + ' ' + `${formValidState.title ? '' : styles['invalid']}`}/>
-                {/* Встроенные стили - более для плавных анимаций*/}
-                <input type="date" name="date" style={{border: formValidState?.date ? undefined : '1px solid red'}}/>
+                {/* библиотека classnames */}
+                <input type="date" name="date" className={
+                    // cn(styles['invalid']) - добавить класс без проверки условий
+                    cn({
+                        [styles['invalid']]: !formValidState.date
+                    })
+                }/>
                 <input type="text" name='tag'/>
+                {/* Встроенные стили - более для плавных анимаций*/}
                 <textarea name="text" id="" cols="30" rows="10" style={{border: formValidState?.text ? undefined : '1px solid red'}}></textarea>
                 <Button text='Сохранить'/>
             </form>
