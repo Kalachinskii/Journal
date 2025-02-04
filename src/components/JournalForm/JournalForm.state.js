@@ -24,7 +24,11 @@ export function formReducer(state, action) {
             return { ...state, values: { ...state.values, ...action.payload } };
         // Очистка формы
         case "CLEAR":
-            return { ...state, values: INITIAL_STATE.values };
+            return {
+                ...state,
+                values: INITIAL_STATE.values,
+                isFormReadyToSubmit: false,
+            };
         // перечисление всех доступных типов
         // Вброс валидностей
         case "RESET_VALIDITY":
