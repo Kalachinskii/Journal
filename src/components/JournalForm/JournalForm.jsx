@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import Button  from '../Button/Button';
 // Работа с модулями
 import styles from './JournalForm.module.css';
@@ -13,12 +13,32 @@ function JournalForm({onSubmit}) {
     const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
     // деструктизация стейта на маленькие элементы
     const {isValid, isFormReadyToSubmit, values} = formState;
+    // позволяет привязаться к элементу ref={titleRef} в input
+    // позволит потом вызвать фокус
+    const titleRef = useRef();
+    const dateRef = useRef();
+    const textRef = useRef();
+
+    const focusError = (isValid) => {
+        switch (true) {
+            case !isValid.title:
+                titleRef.current.focus();
+                break;
+            case !isValid.date:
+                dateRef.current.focus();
+                break;
+            case !isValid.text:
+                textRef.current.focus();
+                break;
+        }
+    }
 
     useEffect(() => {
         let timerId;
         if (!isValid.date || !isValid.text || !isValid.title) {
+            focusError(isValid);
             timerId = setTimeout(() => {
-                // отправляем событие
+                // подсвечиваем состояние
                 dispatchForm({type: 'RESET_VALIDITY'});
             }, 3000)
         }
@@ -58,7 +78,7 @@ function JournalForm({onSubmit}) {
             <form className={styles['journal-form']} onSubmit={addJournalItem}>
                 {/* Динамический класс - приоритет*/}
                 <div>
-                    <input onChange={onChange} value={values.title} type="text" name="title" className={styles['input-title'] + ' ' + `${isValid.title ? '' : styles['invalid']}`}/>
+                    <input ref={titleRef} onChange={onChange} value={values.title} type="text" name="title" className={styles['input-title'] + ' ' + `${isValid.title ? '' : styles['invalid']}`}/>
                 </div>
                 {/* библиотека classnames */}
                 {/* for в jsx нету => htmlFor - аналог for */}
@@ -67,7 +87,7 @@ function JournalForm({onSubmit}) {
                         <img src="/calendar.svg" alt="Иконка календарь" />
                         <span>Дата</span>
                     </label>
-                    <input onChange={onChange} value={values.date} type="date" id="date" name="date" className={
+                    <input ref={dateRef} onChange={onChange} value={values.date} type="date" id="date" name="date" className={
                         // cn(styles['invalid']) - добавить класс без проверки условий
                         cn(styles['input'], {
                             [styles['invalid']]: !isValid.date
@@ -84,7 +104,7 @@ function JournalForm({onSubmit}) {
                 
                 {/* Встроенные стили - более для плавных анимаций*/}
                 {/* <textarea name="text" id="" cols="30" rows="10" style={{border: isValid?.text ? undefined : '1px solid red'}}></textarea> */}
-                <textarea onChange={onChange} value={values.text} name="text" id="" cols="30" rows="10" className={cn(styles['input'], {
+                <textarea ref={textRef} onChange={onChange} value={values.text} name="text" id="" cols="30" rows="10" className={cn(styles['input'], {
                             [styles['invalid']]: !isValid.text
                         })}></textarea>
                 <Button text='Сохранить'/>
