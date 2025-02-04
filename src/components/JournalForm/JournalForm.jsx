@@ -51,17 +51,35 @@ function JournalForm({onSubmit}) {
         <>
             <form className={styles['journal-form']} onSubmit={addJournalItem}>
                 {/* Динамический класс - приоритет*/}
-                <input type="text" name="title" className={styles['input'] + ' ' + `${formValidState.title ? '' : styles['invalid']}`}/>
+                <div>
+                    <input type="text" name="title" className={styles['input-title'] + ' ' + `${formValidState.title ? '' : styles['invalid']}`}/>
+                </div>
                 {/* библиотека classnames */}
-                <input type="date" name="date" className={
-                    // cn(styles['invalid']) - добавить класс без проверки условий
-                    cn({
-                        [styles['invalid']]: !formValidState.date
-                    })
-                }/>
-                <input type="text" name='tag'/>
+                <div className={styles['form-row']}>
+                    <label for="date" className={styles['form-label']}>
+                        <img src="/calendar.svg" alt="Иконка календарь" />
+                        <span>Дата</span>
+                    </label>
+                    <input type="date" id="date" name="date" className={
+                        // cn(styles['invalid']) - добавить класс без проверки условий
+                        cn(styles['input'], {
+                            [styles['invalid']]: !formValidState.date
+                        })
+                    }/>
+                </div>
+                <div className={styles['form-row']}>
+                    <label for="tag" className={styles['form-label']}>
+                        <img src="/folder.svg" alt="Иконка папки" />
+                        <span>Метки</span>
+                    </label>
+                    <input type="text" id="tag" name='tag' className={styles['input']}/>
+                </div>
+                
                 {/* Встроенные стили - более для плавных анимаций*/}
-                <textarea name="text" id="" cols="30" rows="10" style={{border: formValidState?.text ? undefined : '1px solid red'}}></textarea>
+                {/* <textarea name="text" id="" cols="30" rows="10" style={{border: formValidState?.text ? undefined : '1px solid red'}}></textarea> */}
+                <textarea name="text" id="" cols="30" rows="10" className={cn(styles['input'], {
+                            [styles['invalid']]: !formValidState.text
+                        })}></textarea>
                 <Button text='Сохранить'/>
             </form>
         </>
