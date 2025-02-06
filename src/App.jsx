@@ -3,48 +3,31 @@ import LeftPanel from './layouts/LeftPanel/LeftPanel.jsx';
 import Header from './components/Header/Header.jsx';
 import JournalAddButton from './components/JournalAddButton/JournalAddButton.jsx';
 import JurnalList from './components/JurnalList/JurnalList.jsx';
-import CardButton from './components/CardButton/CardButton.jsx';
-import JurnalItem from "./components/JournalItem/JurnalItem.jsx";
 import Body from './layouts/Body/Body.jsx';
-import { useEffect, useState } from 'react';
 import JournalForm from './components/JournalForm/JournalForm.jsx';
+import { useLocalStorage } from './hooks/use-localstorage.hook.js';
+
+function mapItems(items) {
+	if(!items) {
+		return [];
+	}
+	return items.map(i => ({
+		...i,
+		date: new Date(i.date)
+	}));
+}
 
 function App() {
-	const [items, setItems] = useState([]);
-
-	// выполни 1 раз
-	useEffect(() => {
-		const data = JSON.parse(localStorage.getItem("data"));
-		if (data) {
-			setItems(data.map(item => ({
-				...item,
-				date: new Date(item.date)
-			})));
-		}
-	}, []);
-
-	useEffect(() => {
-		if (items.length) {
-			localStorage.setItem('data', JSON.stringify(items))
-		}
-	}, [items])
+	const [items, setItems] = useLocalStorage('data');
 
 	const addItem = item => {	
-		setItems(oldItems => [...oldItems, {
+		setItems([...mapItems(items), {
 			text: item.text,
 			title: item.title,
 			date: new Date(item.date),
-			id: oldItems.length > 0 ? Math.max(...oldItems.map(i => i.id)) + 1 : 1
+			id: items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1
 		}]);	
 	};
-
-	const sortItems = (a, b) => {
-		if (a.date < b.date) {
-			return 1;
-		} else {
-			return -1;
-		}
-	}
 
 	return (
 		<div className='app'>
@@ -52,18 +35,7 @@ function App() {
 			<LeftPanel>
 				<Header/>
 				<JournalAddButton />
-				<JurnalList>
-					{items.length === 0 && <p>Записей нет, добавте 1 запись</p>}
-					{items.length > 0 && items.sort(sortItems).map(el => (
-						<CardButton key={el.id}>
-							<JurnalItem  
-								text={el.text} 
-								title={el.title}
-								date={el.date}
-							/>
-						</CardButton>
-					))}
-				</JurnalList>
+				<JurnalList items={mapItems(items)} />
 			</LeftPanel>
 			<Body>
 				<JournalForm onSubmit={addItem}/>
