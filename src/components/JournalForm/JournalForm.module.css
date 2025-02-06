@@ -4,7 +4,7 @@
     gap: 30px;
 }
 
-.input-title {
+/* .input-title {
     color: rgba(255,255,255, 0.87);
     border: none;
     background: none;
@@ -15,7 +15,7 @@
     font-family: 'Source Sans 3', sans-serif;
     border-bottom: 1px solid #323;
     width: 100%;    
-}
+} */
 
 .form-label {
     display: flex;

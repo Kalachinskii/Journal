@@ -5,6 +5,7 @@ import styles from './JournalForm.module.css';
 // библиотека classnames
 import cn from 'classnames';
 import { INITIAL_STATE, formReducer } from './JournalForm.state';
+import Input from '../Input/Input';
 
 // JSON TEST [{"text":"4","title":"4","date":"2025-02-13T00:00:00.000Z","id":8}]
 
@@ -78,7 +79,8 @@ function JournalForm({onSubmit}) {
             <form className={styles['journal-form']} onSubmit={addJournalItem}>
                 {/* Динамический класс - приоритет*/}
                 <div>
-                    <input ref={titleRef} onChange={onChange} value={values.title} type="text" name="title" className={styles['input-title'] + ' ' + `${isValid.title ? '' : styles['invalid']}`}/>
+                    {/* className={styles['input-title'] + ' ' + `${isValid.title ? '' : styles['invalid']}`} */}
+                    <Input ref={titleRef} onChange={onChange} value={values.title} type="text" name="title" appearence="title" isValid={isValid.title}/>
                 </div>
                 {/* библиотека classnames */}
                 {/* for в jsx нету => htmlFor - аналог for */}
@@ -87,19 +89,14 @@ function JournalForm({onSubmit}) {
                         <img src="/calendar.svg" alt="Иконка календарь" />
                         <span>Дата</span>
                     </label>
-                    <input ref={dateRef} onChange={onChange} value={values.date} type="date" id="date" name="date" className={
-                        // cn(styles['invalid']) - добавить класс без проверки условий
-                        cn(styles['input'], {
-                            [styles['invalid']]: !isValid.date
-                        })
-                    }/>
+                    <Input ref={dateRef} onChange={onChange} value={values.date} type="date" id="date" name="date" isValid={isValid.date}/>
                 </div>
                 <div className={styles['form-row']}>
                     <label htmlFor="tag" className={styles['form-label']}>
                         <img src="/folder.svg" alt="Иконка папки" />
                         <span>Метки</span>
                     </label>
-                    <input onChange={onChange} value={values.tag} type="text" id="tag" name='tag' className={styles['input']}/>
+                    <Input onChange={onChange} value={values.tag} type="text" id="tag" name='tag' />
                 </div>
                 
                 {/* Встроенные стили - более для плавных анимаций*/}
