@@ -63,6 +63,12 @@ function JournalForm({onSubmit}) {
         }
     }, [isFormReadyToSubmit, values, onSubmit])
 
+    // на изменение userId
+    useEffect(() => {
+        // сам добавит поле userId и присвоет значение userId из контекста
+        dispatchForm({type: 'SET_VALUE', payload: {userId}});
+    }, [userId])
+
     const addJournalItem = (e) => {
         e.preventDefault();
         // const formData = new FormData(e.target);
@@ -78,17 +84,7 @@ function JournalForm({onSubmit}) {
     }
 
     return (
-            // Consumer - здесь хотим потреблять контекст
-            // <UserContext.Consumer>
-            // должны предоставить функцию с контекстом */}
-            // по сути доп обвёртка */}
-            // {(context) => ( */}
                 <form className={styles['journal-form']} onSubmit={addJournalItem}>
-                {/* прочитаем наш контекст */}
-                {/* {context.userId} */}
-                {/* для хук контекста */}
-                {userId}
-                {/* Динамический класс - приоритет*/}
                 <div>
                     {/* className={styles['input-title'] + ' ' + `${isValid.title ? '' : styles['invalid']}`} */}
                     <Input ref={titleRef} onChange={onChange} value={values.title} type="text" name="title" appearence="title" isValid={isValid.title}/>
