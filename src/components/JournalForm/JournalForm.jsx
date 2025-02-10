@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef } from 'react';
+import { useContext, useEffect, useId, useReducer, useRef } from 'react';
 import Button  from '../Button/Button';
 // Работа с модулями
 import styles from './JournalForm.module.css';
@@ -20,6 +20,8 @@ function JournalForm({onSubmit}) {
     const titleRef = useRef();
     const dateRef = useRef();
     const textRef = useRef();
+    // {все свойства будут доступны} = используем хук контекст(вверхний уровень)
+    const {userId} = useContext(UserContext);
 
     const focusError = (isValid) => {
         switch (true) {
@@ -77,13 +79,15 @@ function JournalForm({onSubmit}) {
 
     return (
             // Consumer - здесь хотим потреблять контекст
-        <UserContext.Consumer>
-            {/* должны предоставить функцию с контекстом */}
-            {/* по сути доп обвёртка */}
-            {(context) => (
+            // <UserContext.Consumer>
+            // должны предоставить функцию с контекстом */}
+            // по сути доп обвёртка */}
+            // {(context) => ( */}
                 <form className={styles['journal-form']} onSubmit={addJournalItem}>
                 {/* прочитаем наш контекст */}
-                {context.userId}
+                {/* {context.userId} */}
+                {/* для хук контекста */}
+                {userId}
                 {/* Динамический класс - приоритет*/}
                 <div>
                     {/* className={styles['input-title'] + ' ' + `${isValid.title ? '' : styles['invalid']}`} */}
@@ -113,8 +117,8 @@ function JournalForm({onSubmit}) {
                         })}></textarea>
                 <Button text='Сохранить'/>
             </form>
-            )}
-        </UserContext.Consumer>
+        // )}
+        // </UserContext.Consumer> */}
     )
 }
 
