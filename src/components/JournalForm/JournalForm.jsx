@@ -6,6 +6,7 @@ import styles from './JournalForm.module.css';
 import cn from 'classnames';
 import { INITIAL_STATE, formReducer } from './JournalForm.state';
 import Input from '../Input/Input';
+import { UserContext } from '../../context/user.context';
 
 // JSON TEST [{"text":"4","title":"4","date":"2025-02-13T00:00:00.000Z","id":8}]
 
@@ -75,8 +76,14 @@ function JournalForm({onSubmit}) {
     }
 
     return (
-        <>
-            <form className={styles['journal-form']} onSubmit={addJournalItem}>
+            // Consumer - здесь хотим потреблять контекст
+        <UserContext.Consumer>
+            {/* должны предоставить функцию с контекстом */}
+            {/* по сути доп обвёртка */}
+            {(context) => (
+                <form className={styles['journal-form']} onSubmit={addJournalItem}>
+                {/* прочитаем наш контекст */}
+                {context.userId}
                 {/* Динамический класс - приоритет*/}
                 <div>
                     {/* className={styles['input-title'] + ' ' + `${isValid.title ? '' : styles['invalid']}`} */}
@@ -106,7 +113,8 @@ function JournalForm({onSubmit}) {
                         })}></textarea>
                 <Button text='Сохранить'/>
             </form>
-        </>
+            )}
+        </UserContext.Consumer>
     )
 }
 

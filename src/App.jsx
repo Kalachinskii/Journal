@@ -6,6 +6,7 @@ import JurnalList from './components/JurnalList/JurnalList.jsx';
 import Body from './layouts/Body/Body.jsx';
 import JournalForm from './components/JournalForm/JournalForm.jsx';
 import { useLocalStorage } from './hooks/use-localstorage.hook.js';
+import { UserContext } from './context/user.context.js';
 
 function mapItems(items) {
 	if(!items) {
@@ -30,6 +31,15 @@ function App() {
 	};
 
 	return (
+// обворачиваем то что будет отслеживаться
+// в данном случае всё приложеоние
+// Provider - сюда прицепи наш контекст
+// 			- ограничивает область видемости контекста
+// получаем контекст в JurnalForm, но можем и здесь
+// несмотря что задан параметр в контексте мы должны его пробросить и тут как начальное значение
+// например если пробросить value={{userId: items.length}}
+// то в компаненте JurnalForm где получаем контекст будет уже длина items
+<UserContext.Provider value={{userId: 1}}>
 		<div className='app'>
 			{/* композиция компонента - передаем в нутрь компонент другой компанент(children)*/}
 			<LeftPanel>
@@ -41,6 +51,7 @@ function App() {
 				<JournalForm onSubmit={addItem}/>
 			</Body>
 		</div>
+		</UserContext.Provider>
 	)
 }
 
