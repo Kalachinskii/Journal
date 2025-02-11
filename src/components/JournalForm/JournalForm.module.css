@@ -4,19 +4,6 @@
     gap: 30px;
 }
 
-/* .input-title {
-    color: rgba(255,255,255, 0.87);
-    border: none;
-    background: none;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    font-family: 'Source Sans 3', sans-serif;
-    border-bottom: 1px solid #323;
-    width: 100%;    
-} */
-
 .form-label {
     display: flex;
     align-items: center;
@@ -46,9 +33,31 @@
 /* перекрасить иконку календаря */
 ::-webkit-calendar-picker-indicator {
     filter: invert(1);
+    cursor: pointer;
 }
 
 .invalid {
     /* border: 1px solid red; */
     background: rgb(73, 27, 27);
+}
+
+.delete {
+    background: none;
+    border: none;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+}
+
+.delete img {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+
+}
+.delete:hover {
+    outline: 1px solid rgba(255, 255, 255, 0.411);
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
 }
