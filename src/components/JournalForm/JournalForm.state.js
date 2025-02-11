@@ -9,6 +9,7 @@ export const INITIAL_STATE = {
         title: "",
         date: "",
         tag: "",
+        // не приходит userId
     },
     // готова ли форма к отправке
     isFormReadyToSubmit: false,
@@ -17,15 +18,15 @@ export const INITIAL_STATE = {
 // state - предыдущие состояние
 // action - то что надо зделать (имеет свой тип)
 export function formReducer(state, action) {
+    // state = {isValid: {…}, values: {…}, isFormReadyToSubmit: false}
+    // action.type = SET_VALUE, CLEAR и т.д.
     switch (action.type) {
-        // универсальная для всех input
-        // Установка значения
         case "SET_VALUE":
             return { ...state, values: { ...state.values, ...action.payload } };
-        // Очистка формы
         case "CLEAR":
             return {
                 ...state,
+                // нету userId - некоректно работает
                 values: INITIAL_STATE.values,
                 isFormReadyToSubmit: false,
             };

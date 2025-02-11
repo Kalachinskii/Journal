@@ -3,9 +3,11 @@ import { UserContext } from '../../context/user.context';
 
 export default function SelectUser() {
     const {userId, setUserId} = useContext(UserContext);
+
     const changeUser = (e) => {
         setUserId(Number(e.target.value));
-    }
+        console.log(Number(e.target.value));  
+    }    
 
     return (
         <>
